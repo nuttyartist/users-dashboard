@@ -16,6 +16,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
         <input id="birthdate" type="text" formControlName="birthdate" />
         <button type="submit" class="primary">Save</button>
       </form>
+      <br />
+      <button type="submit" class="primary">Add new address</button>
     </article>
   `,
   styleUrl: './add-new-user.component.css',
