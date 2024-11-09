@@ -1,7 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { UsersService } from '../users.service';
 import { User, Address } from '../userData';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-add-new-user',
@@ -9,12 +14,20 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   imports: [ReactiveFormsModule],
   template: `
     <article>
-      <form [formGroup]="applyForm" (submit)="submitApplication()">
+      <form [formGroup]="addNewUserForm" (submit)="submitNewUser()">
         <label for="name">Name</label>
         <input id="name" type="text" formControlName="name" />
         <label for="birthdate">Birthdate</label>
         <input id="birthdate" type="text" formControlName="birthdate" />
-        <button type="submit" class="primary">Save</button>
+        <br />
+        <br />
+        <button
+          type="submit"
+          class="primary"
+          [disabled]="!addNewUserForm.valid"
+        >
+          Save
+        </button>
       </form>
       <br />
       <button type="submit" class="primary">Add new address</button>
@@ -24,12 +37,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class AddNewUserComponent {
   usersService: UsersService = inject(UsersService);
-  applyForm = new FormGroup({
-    name: new FormControl(''),
+  addNewUserForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
     birthdate: new FormControl(''),
   });
 
-  submitApplication() {
+  submitNewUser() {
+    // debug form values
+    console.log(this.addNewUserForm.value);
     console.log('here');
   }
 }
