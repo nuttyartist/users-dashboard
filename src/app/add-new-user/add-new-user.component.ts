@@ -25,10 +25,10 @@ import { AddressComponent } from '../address/address.component';
         <input id="birthdate" type="text" formControlName="birthdate" />
         <br />
         <br />
-        @for (address of userAddresses; track address.addressName) {
+        @for (address of getUserAddresses().controls; track $index) {
         <app-address></app-address>
         }
-        <button>Add new address</button>
+        <button (click)="addNewAddress()">Add new address</button>
         <br />
         <Br />
         <button type="submit" class="primary" [disabled]="!newUserForm.valid">
@@ -48,6 +48,10 @@ export class AddNewUserComponent {
     addresses: new FormArray([]),
   });
 
+  getUserAddresses() {
+    return this.newUserForm.get('addresses') as FormArray;
+  }
+
   addNewAddress() {
     let newUserAddress = new FormGroup({
       addressName: new FormControl('', [Validators.required]),
@@ -56,7 +60,7 @@ export class AddNewUserComponent {
       country: new FormControl(''),
     });
 
-    (this.newUserForm.get('addresses') as FormArray).push(newUserAddress);
+    this.getUserAddresses().push(newUserAddress);
   }
 
   submitNewUser() {
