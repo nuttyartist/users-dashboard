@@ -21,6 +21,7 @@ import { Country, City } from '../geoData';
   imports: [CommonModule, ReactiveFormsModule, AddressComponent],
   template: `
     <article>
+      <h2>Add New User</h2>
       <form [formGroup]="newUserForm" (submit)="submitNewUser()">
         <label for="name">Name</label>
         <input id="name" type="text" formControlName="name" />
