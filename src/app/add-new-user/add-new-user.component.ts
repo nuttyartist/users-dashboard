@@ -1,50 +1,69 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { UsersService } from '../users.service';
 import { User, Address } from '../userData';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AddressComponent } from '../address/address.component';
 
 @Component({
   selector: 'app-add-new-user',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AddressComponent],
   template: `
     <article>
-      <form [formGroup]="addNewUserForm" (submit)="submitNewUser()">
+      <form [formGroup]="newUserForm" (submit)="submitNewUser()">
         <label for="name">Name</label>
         <input id="name" type="text" formControlName="name" />
+        <br />
         <label for="birthdate">Birthdate</label>
         <input id="birthdate" type="text" formControlName="birthdate" />
         <br />
         <br />
-        <button
-          type="submit"
-          class="primary"
-          [disabled]="!addNewUserForm.valid"
-        >
+        @for (address of userAddresses; track address.addressName) {
+        <app-address></app-address>
+        }
+        <button>Add new address</button>
+        <br />
+        <Br />
+        <button type="submit" class="primary" [disabled]="!newUserForm.valid">
           Save
         </button>
       </form>
-      <br />
-      <button type="submit" class="primary">Add new address</button>
     </article>
   `,
   styleUrl: './add-new-user.component.css',
 })
 export class AddNewUserComponent {
   usersService: UsersService = inject(UsersService);
-  addNewUserForm = new FormGroup({
+
+  newUserForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     birthdate: new FormControl(''),
+    addresses: new FormArray([]),
   });
 
+  addNewAddress() {
+    let newUserAddress = new FormGroup({
+      addressName: new FormControl('', [Validators.required]),
+      street: new FormControl('', [Validators.required]),
+      city: new FormControl(''),
+      country: new FormControl(''),
+    });
+
+    (this.newUserForm.get('addresses') as FormArray).push(newUserAddress);
+  }
+
   submitNewUser() {
-    // debug form values
-    console.log(this.addNewUserForm.value);
+    // check if form is valid
+    if (this.newUserForm.valid) {
+    }
+    console.log(this.newUserForm.value);
     console.log('here');
   }
 }
