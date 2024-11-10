@@ -74,6 +74,11 @@ export class AddNewUserComponent {
     };
   }
 
+  // TODO: Why do we need this? Why does the 'atLeastOneValidAddress' only works on the first address?
+  hasValidAddress(): boolean {
+    return this.getUserAddresses().controls.some((control) => control.valid);
+  }
+
   getUserAddresses() {
     return this.newUserForm.get('addresses') as FormArray;
   }
@@ -95,11 +100,6 @@ export class AddNewUserComponent {
 
   getAddressAsFormGroup(address: AbstractControl): FormGroup {
     return address as FormGroup;
-  }
-
-  // TODO: Why do we need this? Why does the 'atLeastOneValidAddress' only works on the first address?
-  hasValidAddress(): boolean {
-    return this.getUserAddresses().controls.some((control) => control.valid);
   }
 
   submitNewUser() {
