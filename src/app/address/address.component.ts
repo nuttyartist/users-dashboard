@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-address',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   template: `<article>
-    <form>
+    <form [formGroup]="addressForm">
       <label for="name">Address Name</label>
       <input id="name" type="text" />
       <br />
@@ -24,11 +25,19 @@ import { Component } from '@angular/core';
       <input id="streer" type="text" />
       <br />
       <Br />
-      <button>Remove address</button>
+      <button (click)="onRemove()">Remove address</button>
       <br />
       <br />
     </form>
   </article> `,
   styleUrl: './address.component.css',
 })
-export class AddressComponent {}
+export class AddressComponent {
+  @Input() addressForm!: FormGroup;
+  @Output() removeAddress = new EventEmitter();
+
+  onRemove() {
+    console.log('remove address');
+    this.removeAddress.emit();
+  }
+}

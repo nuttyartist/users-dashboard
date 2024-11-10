@@ -8,6 +8,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  AbstractControl,
 } from '@angular/forms';
 import { AddressComponent } from '../address/address.component';
 
@@ -26,7 +27,10 @@ import { AddressComponent } from '../address/address.component';
         <br />
         <br />
         @for (address of getUserAddresses().controls; track $index) {
-        <app-address></app-address>
+        <app-address
+          [addressForm]="getAddressAsFormGroup(address)"
+          (removeAddress)="removeAddress($index)"
+        ></app-address>
         }
         <button (click)="addNewAddress()">Add new address</button>
         <br />
@@ -61,6 +65,14 @@ export class AddNewUserComponent {
     });
 
     this.getUserAddresses().push(newUserAddress);
+  }
+
+  removeAddress(index: number) {
+    this.getUserAddresses().removeAt(index);
+  }
+
+  getAddressAsFormGroup(address: AbstractControl): FormGroup {
+    return address as FormGroup;
   }
 
   submitNewUser() {
