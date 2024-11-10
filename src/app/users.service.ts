@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 import { User, Address } from './userData';
+import { Country, City } from './geoData';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   url = 'http://localhost:3000/api';
+
+  async getAvailableCountries(): Promise<Country[]> {
+    const data = await fetch(`${this.url}/countries`);
+    return (await data.json()) ?? [];
+  }
+
+  async getAvailableCities(countryId: number): Promise<City[]> {
+    const data = await fetch(`${this.url}/cities/${countryId}`);
+    return (await data.json()) ?? [];
+  }
 
   async getAllUsers(): Promise<User[]> {
     const data = await fetch(`${this.url}/persons`);
@@ -14,6 +25,7 @@ export class UsersService {
     return response ?? [];
   }
 
+  // Unnecessary at the moment?
   async getUserById(id: number): Promise<User> {
     const data = await fetch(`${this.url}/${id}`);
     return (await data.json()) ?? [];

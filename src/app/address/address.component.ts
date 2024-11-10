@@ -1,10 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Country, City } from '../geoData';
 
 @Component({
   selector: 'app-address',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   template: `<article>
     <form [formGroup]="addressForm">
       <label for="name">Address Name</label>
@@ -12,9 +14,11 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
       <br />
       <label for="birthdate">Select country</label>
       <select formControlName="country">
-        <option value="israel">Israel</option>
-        <option value="france">France</option>
-        <option value="usa">U.S.A</option>
+        @for (country of availableCountries; track $index) {
+        <option value="{{ country.name.toLowerCase() }}">
+          {{ country.name }}
+        </option>
+        }
       </select>
       <label for="birthdate">Select city</label>
       <select formControlName="city">
@@ -34,6 +38,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class AddressComponent {
   @Input() addressForm!: FormGroup;
+  @Input() availableCountries: Country[] = [];
   @Output() removeAddress = new EventEmitter();
 
   onRemove() {

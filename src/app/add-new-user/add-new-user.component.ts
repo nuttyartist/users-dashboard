@@ -13,6 +13,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { AddressComponent } from '../address/address.component';
+import { Country, City } from '../geoData';
 
 @Component({
   selector: 'app-add-new-user',
@@ -32,6 +33,7 @@ import { AddressComponent } from '../address/address.component';
         <app-address
           [addressForm]="getAddressAsFormGroup(address)"
           (removeAddress)="removeAddress($index)"
+          [availableCountries]="countries"
         ></app-address>
         }
         <button (click)="addNewAddress()">Add new address</button>
@@ -51,6 +53,13 @@ import { AddressComponent } from '../address/address.component';
 })
 export class AddNewUserComponent {
   usersService: UsersService = inject(UsersService);
+  countries: Country[] = [];
+
+  constructor() {
+    this.usersService.getAvailableCountries().then((countries: Country[]) => {
+      this.countries = countries;
+    });
+  }
 
   newUserForm = new FormGroup(
     {
