@@ -37,7 +37,6 @@ export class AddressComponent {
   @Output() removeAddress = new EventEmitter();
 
   onRemove() {
-    console.log('remove address');
     this.removeAddress.emit();
   }
 }

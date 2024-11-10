@@ -80,6 +80,5 @@ export class AddNewUserComponent {
     if (this.newUserForm.valid) {
     }
     console.log(this.newUserForm.value);
-    console.log('here');
   }
 }
