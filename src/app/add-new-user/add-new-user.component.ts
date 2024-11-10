@@ -9,6 +9,8 @@ import {
   ReactiveFormsModule,
   Validators,
   AbstractControl,
+  ValidatorFn,
+  ValidationErrors,
 } from '@angular/forms';
 import { AddressComponent } from '../address/address.component';
 
@@ -35,7 +37,11 @@ import { AddressComponent } from '../address/address.component';
         <button (click)="addNewAddress()">Add new address</button>
         <br />
         <Br />
-        <button type="submit" class="primary" [disabled]="!newUserForm.valid">
+        <button
+          type="submit"
+          class="primary"
+          [disabled]="newUserForm.get('name')?.invalid || !hasValidAddress()"
+        >
           Save
         </button>
       </form>
@@ -46,11 +52,27 @@ import { AddressComponent } from '../address/address.component';
 export class AddNewUserComponent {
   usersService: UsersService = inject(UsersService);
 
-  newUserForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    birthdate: new FormControl(''),
-    addresses: new FormArray([]),
-  });
+  newUserForm = new FormGroup(
+    {
+      name: new FormControl('', [Validators.required]),
+      birthdate: new FormControl(''),
+      addresses: new FormArray<FormGroup>([]),
+    },
+    { validators: this.atLeastOneValidAddress() }
+  );
+
+  atLeastOneValidAddress(): ValidatorFn {
+    return (formArray: AbstractControl): ValidationErrors | null => {
+      if (!(formArray instanceof FormArray)) {
+        return null;
+      }
+
+      const hasValidAddress = formArray.controls.some(
+        (control) => control.valid
+      );
+      return hasValidAddress ? null : { noValidAddresses: true };
+    };
+  }
 
   getUserAddresses() {
     return this.newUserForm.get('addresses') as FormArray;
@@ -73,6 +95,11 @@ export class AddNewUserComponent {
 
   getAddressAsFormGroup(address: AbstractControl): FormGroup {
     return address as FormGroup;
+  }
+
+  // TODO: Why do we need this? Why does the 'atLeastOneValidAddress' only works on the first address?
+  hasValidAddress(): boolean {
+    return this.getUserAddresses().controls.some((control) => control.valid);
   }
 
   submitNewUser() {
