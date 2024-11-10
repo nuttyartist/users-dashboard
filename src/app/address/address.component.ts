@@ -8,21 +8,21 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
   template: `<article>
     <form [formGroup]="addressForm">
       <label for="name">Address Name</label>
-      <input id="name" type="text" />
+      <input id="name" type="text" formControlName="addressName" />
       <br />
       <label for="birthdate">Select country</label>
-      <select name="countries">
+      <select formControlName="country">
         <option value="israel">Israel</option>
         <option value="france">France</option>
         <option value="usa">U.S.A</option>
       </select>
       <label for="birthdate">Select city</label>
-      <select name="cities">
+      <select formControlName="city">
         <option value="telAviv">Tel Aviv</option>
         <option value="haifa">Haifa</option>
       </select>
       <label for="name">Street</label>
-      <input id="streer" type="text" />
+      <input id="streer" type="text" formControlName="street" />
       <br />
       <Br />
       <button (click)="onRemove()">Remove address</button>
