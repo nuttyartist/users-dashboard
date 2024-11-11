@@ -74,7 +74,6 @@ export class UsersListComponent {
   constructor() {
     this.usersService.getAllUsers().then((users: User[]) => {
       this.users = users;
-      console.log(this.users);
     });
   }
 }
