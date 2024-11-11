@@ -1,8 +1,8 @@
 export interface Address {
   addressName: string;
   street: string;
-  city: string;
-  country: string;
+  cityId: string;
+  countryId: string;
 }
 
 export interface User {

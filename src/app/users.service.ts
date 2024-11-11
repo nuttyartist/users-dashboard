@@ -14,6 +14,7 @@ export class UsersService {
   }
 
   async getAvailableCities(countryId: number): Promise<City[]> {
+    console.log('countryId 0:', countryId);
     const data = await fetch(`${this.url}/cities/${countryId}`);
     return (await data.json()) ?? [];
   }
@@ -23,6 +24,18 @@ export class UsersService {
     const response = await data.json();
     console.log('res:', response);
     return response ?? [];
+  }
+
+  async getCountryId(countryName: string): Promise<number> {
+    const countries = await this.getAvailableCountries();
+    const country = countries.find((c) => c.name.toLowerCase() === countryName);
+    return country?.id ?? 0;
+  }
+
+  async getCityId(cityName: string, countryId: number): Promise<number> {
+    const cities = await this.getAvailableCities(countryId);
+    const city = cities.find((c) => c.name.toLowerCase() === cityName);
+    return city?.id ?? 0;
   }
 
   async addCity(cityData: City): Promise<City> {
@@ -46,14 +59,12 @@ export class UsersService {
   }
 
   submitNewUser(user: User) {
-    console.log(
-      `New user created: name: ${user.name}, birthDate: ${user.birthDate}.`
-    );
-    // print addresses
-    user.addresses.forEach((address: Address) => {
-      console.log(
-        `Address: addressName: ${address.addressName}, street: ${address.street}, city: ${address.city}, country: ${address.country}.`
-      );
+    fetch(`${this.url}/person`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
     });
   }
 }

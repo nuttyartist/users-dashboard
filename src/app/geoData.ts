@@ -5,6 +5,7 @@ export interface Country {
 }
 
 export interface City {
+  id: number;
   name: string;
   countryId: number;
 }

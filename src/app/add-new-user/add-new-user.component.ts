@@ -114,15 +114,34 @@ export class AddNewUserComponent {
     return address as FormGroup;
   }
 
-  submitNewUser() {
+  async submitNewUser() {
     // check if form is valid
     if (this.newUserForm.valid) {
-      const user: User = {
-        name: this.newUserForm.get('name')?.value,
-        birthDate: this.newUserForm.get('birthdate')?.value,
-        addresses: this.newUserForm.get('addresses')?.value,
-      };
+      const userAddresses: Address[] = [];
+      const addresses = this.newUserForm.get('addresses')?.value;
 
+      for (const address of addresses!) {
+        const countryId = await this.usersService.getCountryId(
+          address['country']
+        );
+        const cityId = await this.usersService.getCityId(
+          address['city'],
+          countryId
+        );
+
+        userAddresses.push({
+          addressName: address['addressName'],
+          street: address['street'],
+          cityId: cityId.toString(),
+          countryId: countryId.toString(),
+        });
+      }
+
+      const user: User = {
+        name: this.newUserForm.get('name')?.value!,
+        birthDate: this.newUserForm.get('birthdate')?.value!,
+        addresses: userAddresses,
+      };
       this.usersService.submitNewUser(user);
     }
   }

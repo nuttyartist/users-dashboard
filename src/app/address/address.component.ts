@@ -77,7 +77,11 @@ export class AddressComponent {
   }
 
   async onCityAdded(city: string) {
-    const newCity: City = { name: city, countryId: this.selectedCountryId };
+    const newCity: City = {
+      id: -1,
+      name: city,
+      countryId: this.selectedCountryId,
+    };
     await this.usersService.addCity(newCity);
     this.updateCitiesList(this.selectedCountryName);
     this.hideAddCityDialog();
