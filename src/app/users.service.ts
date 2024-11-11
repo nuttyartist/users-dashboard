@@ -59,12 +59,18 @@ export class UsersService {
   }
 
   submitNewUser(user: User) {
-    fetch(`${this.url}/person`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user),
-    });
+    try {
+      fetch(`${this.url}/person`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+      return true;
+    } catch (error) {
+      console.error('Error submitting new user:', error);
+      return false;
+    }
   }
 }

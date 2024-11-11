@@ -48,13 +48,39 @@ import { Country, City } from '../geoData';
           Save
         </button>
       </form>
+      @if (submitStatus === 'success') {
+      <div class="success-message">User data submitted successfully!</div>
+      } @if (submitStatus === 'error') {
+      <div class="error-message">
+        Failed to submit user data. Please try again.
+      </div>
+      }
     </article>
   `,
-  styleUrl: './add-new-user.component.css',
+  styles: [
+    `
+      .success-message {
+        background-color: #dff0d8;
+        color: #3c763d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+      }
+
+      .error-message {
+        background-color: #f2dede;
+        color: #a94442;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+      }
+    `,
+  ],
 })
 export class AddNewUserComponent {
   usersService: UsersService = inject(UsersService);
   countries: Country[] = [];
+  submitStatus: 'success' | 'error' | null = null;
 
   constructor() {
     this.addNewAddress();
@@ -138,11 +164,17 @@ export class AddNewUserComponent {
       }
 
       const user: User = {
+        id: -1,
         name: this.newUserForm.get('name')?.value!,
-        birthDate: this.newUserForm.get('birthdate')?.value!,
+        birthdate: this.newUserForm.get('birthdate')?.value!,
         addresses: userAddresses,
       };
-      this.usersService.submitNewUser(user);
+      try {
+        const result = this.usersService.submitNewUser(user);
+        this.submitStatus = result ? 'success' : 'error';
+      } catch (error) {
+        this.submitStatus = 'error';
+      }
     }
   }
 }
