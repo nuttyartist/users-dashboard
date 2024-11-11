@@ -117,7 +117,13 @@ export class AddNewUserComponent {
   submitNewUser() {
     // check if form is valid
     if (this.newUserForm.valid) {
+      const user: User = {
+        name: this.newUserForm.get('name')?.value,
+        birthDate: this.newUserForm.get('birthdate')?.value,
+        addresses: this.newUserForm.get('addresses')?.value,
+      };
+
+      this.usersService.submitNewUser(user);
     }
-    console.log(this.newUserForm.value);
   }
 }

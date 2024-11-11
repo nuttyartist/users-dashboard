@@ -25,6 +25,20 @@ export class UsersService {
     return response ?? [];
   }
 
+  async addCity(cityData: City): Promise<City> {
+    const response = await fetch(`${this.url}/city`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: cityData.name,
+        countryId: cityData.countryId,
+      }),
+    });
+    return await response.json();
+  }
+
   // Unnecessary at the moment?
   async getUserById(id: number): Promise<User> {
     const data = await fetch(`${this.url}/${id}`);
@@ -33,7 +47,7 @@ export class UsersService {
 
   submitNewUser(user: User) {
     console.log(
-      `New user created: id: ${user.id}, name: ${user.name}, birthDate: ${user.birthDate}.`
+      `New user created: name: ${user.name}, birthDate: ${user.birthDate}.`
     );
     // print addresses
     user.addresses.forEach((address: Address) => {

@@ -1,12 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Country, City } from '../geoData';
+import { AddCityComponent } from '../add-city/add-city.component';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-address',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AddCityComponent],
   template: `<article>
     <form [formGroup]="addressForm">
       <label for="name">Address Name</label>
@@ -31,7 +33,7 @@ import { Country, City } from '../geoData';
         </option>
         }
       </select>
-      <button>Add city</button>
+      <button (click)="showAddCityDialog()">Add city</button>
       <br />
       <label for="name">Street</label>
       <input id="streer" type="text" formControlName="street" />
@@ -41,6 +43,12 @@ import { Country, City } from '../geoData';
       <br />
       <br />
     </form>
+    @if (isDialogVisible) {
+    <app-add-city
+      (closeDialog)="hideAddCityDialog()"
+      (cityAdded)="onCityAdded($event)"
+    ></app-add-city>
+    }
   </article> `,
   styleUrl: './address.component.css',
 })
@@ -48,8 +56,32 @@ export class AddressComponent {
   @Input() addressForm!: FormGroup;
   @Input() availableCountries: Country[] = [];
   @Output() removeAddress = new EventEmitter();
+  isDialogVisible = false;
+  selectedCountryId: number = 0;
+  selectedCountryName: string = '';
+  usersService: UsersService = inject(UsersService);
 
   selectedCountryCities: City[] = [];
+
+  showAddCityDialog() {
+    console.log('showAddCityDialog');
+    if (!this.selectedCountryId) {
+      alert('Please select a country first');
+      return;
+    }
+    this.isDialogVisible = true;
+  }
+
+  hideAddCityDialog() {
+    this.isDialogVisible = false;
+  }
+
+  async onCityAdded(city: string) {
+    const newCity: City = { name: city, countryId: this.selectedCountryId };
+    await this.usersService.addCity(newCity);
+    this.updateCitiesList(this.selectedCountryName);
+    this.hideAddCityDialog();
+  }
 
   ngOnInit() {
     this.addressForm
@@ -64,7 +96,16 @@ export class AddressComponent {
       (c: Country) => c.name.toLowerCase() === country.toLowerCase()
     )!;
 
-    this.selectedCountryCities = countryObj.cities;
+    if (countryObj) {
+      this.selectedCountryName = countryObj.name;
+      this.selectedCountryId = countryObj.id;
+
+      this.usersService
+        .getAvailableCities(countryObj.id)
+        .then((cities: City[]) => {
+          this.selectedCountryCities = cities;
+        });
+    }
   }
 
   onRemove() {
