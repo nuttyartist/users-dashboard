@@ -27,7 +27,7 @@ import { Country, City } from '../geoData';
         <input id="name" type="text" formControlName="name" />
         <br />
         <label for="birthdate">Birthdate</label>
-        <input id="birthdate" type="text" formControlName="birthdate" />
+        <input id="birthdate" type="date" formControlName="birthdate" />
         <br />
         <br />
         @for (address of getUserAddresses().controls; track $index) {
@@ -67,7 +67,7 @@ export class AddNewUserComponent {
   newUserForm = new FormGroup(
     {
       name: new FormControl('', [Validators.required]),
-      birthdate: new FormControl(''),
+      birthdate: new FormControl(new Date()),
       addresses: new FormArray<FormGroup>([]),
     },
     { validators: this.atLeastOneValidAddress() }

@@ -7,6 +7,6 @@ export interface Address {
 
 export interface User {
   name: string;
-  birthDate: string;
+  birthDate: Date;
   addresses: Address[];
 }
