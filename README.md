@@ -1,27 +1,71 @@
-# UsersDashboard
+# Users Dashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+(09.11.2024 - 11.11.2024)
+- [x] Empty project
+- [x] Setup prettifier on save
+- [x] Setup routes
+- [x] Setup components
+	- [x] UsersList
+	- [x] addNewUser
+- [x] Setup users service
+	- [x] users service
+	- [x] Create a UserData with the following interfaces:
+		- [x] Address
+		- [x] User
+	- [x] getAllUsers
+	- [x] submitNewUser
+	- [x] getUserById (optional)
+- [x] UsersList comp part 1
+	- [x] h2 - List of all users
+	- [x] Get data from service
+	- [x] Setup local server from Git repo
+	- [x] Test
+	- [x] Add new user button
+- [x] AddNewUser comp
+	- [x] Reactive form
+		- [x] Name
+		- [x] birthdate
+		- [x] Required fields: 
+			- [x] name
+		- [x] Address component
+			- [x] How to bind data from child to parent
+			- [x] Required fields:
+				- [x] address name
+				- [x] street
+			- [x] Address name
+			- [x] Country
+			- [x] Use proper getter
+			- [x] Street
+			- [x] Remove Address
+				- [x] Button
+				- [x] Implement
+			- [x] Why save button doesn't work
+			- [x] Add validation of at least one address
+				- [x] Why it only checks the first one?
+					- [x] A check from the template fixes the issue but I'm still curious why the validator doesn't do its job correctly
+			- [x] We need to fetch available countries
+			- [x] Option to add cities to countries
+				- [x] Fetach available cities upon selecting a country
+				- [x] City dialog new comp
+				- [x] Cities don't update after submitting
+				- [x] Open dialog in a popup
+	- [x] Add new Address 
+		- [x] Button
+	- [x] Save
+		- [x] Button
+		- [x] Disable until form is valid
+		- [x] Send post request
+	- [x] Fix birthday
+	- [x] Succes message
+- [x] Users List comp part 2
+	- [x] Fetch from api
+	- [x] Table
+		- [x] id, name, birthdate, addresses count
+- [x] Finish
+	- [x] Fix birthday issue
+	- [x] Can't submit if country/city not exist
+	- [x] Make sure we done all requirments
+	- [x] Change icon
+	- [x] Remove debug messages
+	- [x] Remove unnecessary .html templates
+	- [x] Style with pretty CSS
