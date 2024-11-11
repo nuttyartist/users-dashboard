@@ -59,20 +59,75 @@ import { Country, City } from '../geoData';
   `,
   styles: [
     `
-      .success-message {
-        background-color: #dff0d8;
-        color: #3c763d;
-        padding: 10px;
+      article {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h2 {
+        color: #2c3e50;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+
+      form {
+        display: grid;
+        grid-gap: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #2c3e50;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
         border-radius: 4px;
-        margin: 10px 0;
+        font-size: 1em;
+      }
+
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+
+      button:disabled {
+        background-color: #bdc3c7;
+        cursor: not-allowed;
+      }
+
+      .success-message {
+        background-color: #2ecc71;
+        color: white;
+        padding: 15px;
+        border-radius: 4px;
+        margin: 20px 0;
+        text-align: center;
       }
 
       .error-message {
-        background-color: #f2dede;
-        color: #a94442;
-        padding: 10px;
+        background-color: #e74c3c;
+        color: white;
+        padding: 15px;
         border-radius: 4px;
-        margin: 10px 0;
+        margin: 20px 0;
+        text-align: center;
       }
     `,
   ],

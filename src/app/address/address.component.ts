@@ -34,14 +34,13 @@ import { UsersService } from '../users.service';
         }
       </select>
       <button (click)="showAddCityDialog()">Add city</button>
-      <br />
       <label for="name">Street</label>
       <input id="streer" type="text" formControlName="street" />
       <br />
-      <Br />
-      <button (click)="onRemove()">Remove address</button>
       <br />
-      <br />
+      <div class="button-container">
+        <button class="redButton" (click)="onRemove()">Remove address</button>
+      </div>
     </form>
     @if (isDialogVisible) {
     <app-add-city
@@ -50,7 +49,83 @@ import { UsersService } from '../users.service';
     ></app-add-city>
     }
   </article> `,
-  styleUrl: './address.component.css',
+  styles: [
+    `
+      article {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      form {
+        display: grid;
+        grid-gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #2c3e50;
+        font-weight: 500;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1em;
+      }
+
+      button {
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #27ae60;
+      }
+
+      button[type='button'] {
+        background-color: #e74c3c;
+      }
+
+      button[type='button']:hover {
+        background-color: #c0392b;
+      }
+
+      .button-container {
+        grid-column: 1 / -1; /* Makes the container span all columns */
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .redButton {
+        margin-top: 20px;
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .redButton:hover {
+        background-color: #c0392b;
+      }
+    `,
+  ],
 })
 export class AddressComponent {
   @Input() addressForm!: FormGroup;

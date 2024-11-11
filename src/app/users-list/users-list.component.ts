@@ -39,30 +39,50 @@ import { RouterLink } from '@angular/router';
   `,
   styles: [
     `
+      h2 {
+        color: #2c3e50;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+
       table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
 
       th,
       td {
-        padding: 12px;
+        padding: 12px 15px;
         text-align: left;
         border-bottom: 1px solid #ddd;
       }
 
       th {
-        background-color: #f4f4f4;
-        font-weight: bold;
+        background-color: #3498db;
+        color: white;
+        font-weight: 500;
       }
 
       tr:hover {
-        background-color: #f5f5f5;
+        background-color: #f5f7fa;
       }
 
       .primary {
-        margin-bottom: 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+      }
+
+      .primary:hover {
+        background-color: #2980b9;
       }
     `,
   ],
