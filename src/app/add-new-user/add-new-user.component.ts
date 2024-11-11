@@ -57,6 +57,8 @@ export class AddNewUserComponent {
   countries: Country[] = [];
 
   constructor() {
+    this.addNewAddress();
+
     this.usersService.getAvailableCountries().then((countries: Country[]) => {
       this.countries = countries;
     });
