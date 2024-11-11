@@ -29,10 +29,11 @@ export class UsersService {
   async getCountryId(countryName: string): Promise<number> {
     const countries = await this.getAvailableCountries();
     const country = countries.find((c) => c.name.toLowerCase() === countryName);
-    return country?.id ?? 0;
+    return country?.id ?? -1;
   }
 
   async getCityId(cityName: string, countryId: number): Promise<number> {
+    if (countryId === -1) return 0;
     const cities = await this.getAvailableCities(countryId);
     const city = cities.find((c) => c.name.toLowerCase() === cityName);
     return city?.id ?? 0;

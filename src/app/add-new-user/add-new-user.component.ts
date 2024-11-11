@@ -93,7 +93,7 @@ export class AddNewUserComponent {
   newUserForm = new FormGroup(
     {
       name: new FormControl('', [Validators.required]),
-      birthdate: new FormControl(new Date()),
+      birthdate: new FormControl(undefined),
       addresses: new FormArray<FormGroup>([]),
     },
     { validators: this.atLeastOneValidAddress() }
