@@ -23,30 +23,40 @@ import { Country, City } from '../geoData';
     <article>
       <h2>Add New User</h2>
       <form [formGroup]="newUserForm" (submit)="submitNewUser()">
-        <label for="name">Name</label>
-        <input id="name" type="text" formControlName="name" />
-        <br />
-        <label for="birthdate">Birthdate</label>
-        <input id="birthdate" type="date" formControlName="birthdate" />
-        <br />
-        <br />
-        @for (address of getUserAddresses().controls; track $index) {
-        <app-address
-          [addressForm]="getAddressAsFormGroup(address)"
-          (removeAddress)="removeAddress($index)"
-          [availableCountries]="countries"
-        ></app-address>
-        }
-        <button (click)="addNewAddress()">Add new address</button>
-        <br />
-        <Br />
-        <button
-          type="submit"
-          class="primary"
-          [disabled]="newUserForm.get('name')?.invalid || !hasValidAddress()"
-        >
-          Save
-        </button>
+        <div class="form-container">
+          <div class="left-section">
+            <label for="name">Name</label>
+            <input id="name" type="text" formControlName="name" />
+
+            <label for="birthdate">Birthdate</label>
+            <input id="birthdate" type="date" formControlName="birthdate" />
+
+            <div class="action-buttons">
+              <button type="button" (click)="addNewAddress()">
+                Add new address
+              </button>
+              <button
+                type="submit"
+                class="primary"
+                [disabled]="
+                  newUserForm.get('name')?.invalid || !hasValidAddress()
+                "
+              >
+                Save
+              </button>
+            </div>
+          </div>
+
+          <div class="right-section">
+            @for (address of getUserAddresses().controls; track $index) {
+            <app-address
+              [addressForm]="getAddressAsFormGroup(address)"
+              (removeAddress)="removeAddress($index)"
+              [availableCountries]="countries"
+            ></app-address>
+            }
+          </div>
+        </div>
       </form>
       @if (submitStatus === 'success') {
       <div class="success-message">User data submitted successfully!</div>
@@ -60,7 +70,7 @@ import { Country, City } from '../geoData';
   styles: [
     `
       article {
-        max-width: 800px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
       }
@@ -72,24 +82,43 @@ import { Country, City } from '../geoData';
         margin-bottom: 30px;
       }
 
-      form {
-        display: grid;
-        grid-gap: 15px;
+      .form-container {
+        display: flex;
+        gap: 40px;
       }
 
-      label {
+      .left-section {
+        flex: 0 0 300px;
+        align-self: flex-start; /* This prevents the section from stretching */
+        position: sticky; /* Makes the section stick to the top */
+        top: 20px; /* Distance from the top of the viewport */
+      }
+
+      .right-section {
+        flex: 1;
+      }
+
+      .left-section label {
         display: block;
         margin-bottom: 5px;
         color: #2c3e50;
         font-weight: 500;
       }
 
-      input {
+      .left-section input {
         width: 100%;
         padding: 8px;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 1em;
+        margin-bottom: 15px;
+      }
+
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
       }
 
       button {
@@ -101,6 +130,7 @@ import { Country, City } from '../geoData';
         cursor: pointer;
         font-size: 1em;
         transition: background-color 0.3s;
+        width: 100%;
       }
 
       button:hover {
